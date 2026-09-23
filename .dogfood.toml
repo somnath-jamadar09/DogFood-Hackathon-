@@ -1,0 +1,22 @@
+[harness]
+version = "2026.1"
+target_event = "Hackathon Raptors 2026"
+offline_compliance_required = true
+
+[services]
+frontend = { port = 3000, protocol = "http", health_endpoint = "/" }
+api = { port = 5000, protocol = "http", health_endpoint = "/api/v1/health" }
+judging = { port = 8000, protocol = "http", health_endpoint = "/health", internal_only = true }
+mongodb = { port = 27017, protocol = "mongodb" }
+
+[tiers]
+t1_core = true
+t2_judging = true
+t3_public = true
+t4_stretch = false
+
+[verification]
+egress_check_command = "nc -zv -w 2 8.8.8.8 53"
+acceptance_report_path = "./acceptance-report.txt"
+test_suite_api = "npm test"
+test_suite_judging = "pytest"
